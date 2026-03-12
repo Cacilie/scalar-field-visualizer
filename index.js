@@ -3,7 +3,7 @@ const MARGIN = 50;
 const GRID_MIN = -1;
 const GRID_MAX = 1;
 const STEP = 0.1;
-const CONTOUR_TARGET = 1;
+const ISO_VALUE = 1;
 const DRAW_CONTOUR = true;
 const DRAW_DISTANCE = true;
 
@@ -18,7 +18,7 @@ function draw() {
   drawAxes();
   drawPoints();
   if (DRAW_CONTOUR) {
-    drawContour(CONTOUR_TARGET);
+    drawContour(ISO_VALUE);
   }
 }
 
