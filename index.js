@@ -1,4 +1,4 @@
-const CANVAS_SIZE = 720;
+let canvasSize = 720;
 const MARGIN = 50;
 const GRID_MIN = -1;
 const GRID_MAX = 1;
@@ -6,11 +6,19 @@ const STEP = 0.1;
 const ISO_VALUE = 0.8;
 const DRAW_DISTANCE = true;
 
+function calculateCanvasSize() {
+  const padding = window.innerWidth < 768 ? 20 : 100;
+  const availableWidth = window.innerWidth - padding;
+  const maxWidth = 720;
+  return Math.min(availableWidth, maxWidth);
+}
+
 function setup() {
-  const canvas = createCanvas(CANVAS_SIZE, CANVAS_SIZE);
+  canvasSize = calculateCanvasSize();
+  const canvas = createCanvas(canvasSize, canvasSize);
   canvas.parent('canvas-container');
   noLoop(); 
-
+  
   const pointsCheckbox = document.getElementById('draw-points-checkbox');
   pointsCheckbox.addEventListener('change', () => {
     redraw();
@@ -57,15 +65,10 @@ function draw() {
   }
 }
 
-/**
- * Naive contour drawing: joins all grid points that have the same rounded distance value.
- * This connects the "0.8" labels seen on screen, showing a jagged, non-interpolated contour.
- */
 function drawContourNaive(target) {
   let points = [];
   const targetStr = target.toFixed(1);
 
-  // Collect all grid points that would be labeled with the target value
   for (let x = GRID_MIN; x <= GRID_MAX + 0.001; x += STEP) {
     for (let y = GRID_MIN; y <= GRID_MAX + 0.001; y += STEP) {
       const val = f(x, y);
@@ -77,10 +80,9 @@ function drawContourNaive(target) {
 
   if (points.length < 2) return;
 
-  // Sort by angle to draw a coherent (but jagged) loop
   points.sort((a, b) => Math.atan2(a.y, a.x) - Math.atan2(b.y, b.x));
 
-  stroke(0, 0, 255); // Blue for naive approach
+  stroke(0, 0, 255); 
   strokeWeight(2);
   noFill();
   beginShape();
@@ -90,16 +92,10 @@ function drawContourNaive(target) {
   endShape(CLOSE);
 }
 
-/**
- * The scalar field function.
- */
 function f(x, y) {
   return Math.sqrt(x * x + y * y);
 }
 
-/**
- * Maps a coordinate value to pixel position.
- */
 function mapCoord(val, axis) {
   if (axis === 'x') {
     return map(val, GRID_MIN, GRID_MAX, MARGIN, width - MARGIN);
@@ -108,9 +104,6 @@ function mapCoord(val, axis) {
   }
 }
 
-/**
- * Linear interpolation to find the exact crossing point on an edge.
- */
 function lerpCoord(v1, v2, target, p1, p2) {
   if (Math.abs(v1 - v2) < 0.0001) return (p1 + p2) / 2;
   const t = (target - v1) / (v2 - v1);
@@ -152,20 +145,17 @@ function drawContour(target) {
       const x1 = x, x2 = x + STEP;
       const y1 = y, y2 = y + STEP;
 
-      // Values at the four corners
-      const v1 = f(x1, y1); // Top-left
-      const v2 = f(x2, y1); // Top-right
-      const v3 = f(x2, y2); // Bottom-right
-      const v4 = f(x1, y2); // Bottom-left
+      const v1 = f(x1, y1); 
+      const v2 = f(x2, y1); 
+      const v3 = f(x2, y2); 
+      const v4 = f(x1, y2); 
 
-      // Binary state (1 if >= target)
       let state = 0;
       if (v1 >= target) state += 8;
       if (v2 >= target) state += 4;
       if (v3 >= target) state += 2;
       if (v4 >= target) state += 1;
 
-      // Calculate crossing points using lerp
       const top = { x: lerpCoord(v1, v2, target, x1, x2), y: y1 };
       const right = { x: x2, y: lerpCoord(v2, v3, target, y1, y2) };
       const bottom = { x: lerpCoord(v4, v3, target, x1, x2), y: y2 };
@@ -175,7 +165,6 @@ function drawContour(target) {
         line(mapCoord(p1.x, 'x'), mapCoord(p1.y, 'y'), mapCoord(p2.x, 'x'), mapCoord(p2.y, 'y'));
       };
 
-      // Marching Squares Lookup Table
       switch (state) {
         case 1: case 14: drawLine(left, bottom); break;
         case 2: case 13: drawLine(bottom, right); break;
@@ -235,3 +224,16 @@ function drawAxes() {
   text("0", zeroX - 10, zeroY + 10);
 }
 
+
+function windowResized() {
+  canvasSize = calculateCanvasSize();
+  resizeCanvas(canvasSize, canvasSize);
+  redraw();
+}
+
+
+function windowResized() {
+  canvasSize = calculateCanvasSize();
+  resizeCanvas(canvasSize, canvasSize);
+  redraw();
+}
