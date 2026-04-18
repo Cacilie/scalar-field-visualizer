@@ -27,6 +27,34 @@ body {
 #project-description {
     margin-left: 20px;
     height: 720px; /* Matches CANVAS_SIZE */
+    font-size: 0.9em;
+    line-height: 1.4;
+    overflow-y: auto;
+}
+
+#project-description p {
+    margin: 10px 0;
+}
+
+#project-description li p {
+    margin: 5px 0 10px 0;
+}
+
+#project-description ol {
+    padding-left: 20px;
+}
+
+#project-description li {
+    margin-bottom: 10px;
+}
+
+#project-description a {
+    color: #0066cc;
+    text-decoration: none;
+}
+
+#project-description a:hover {
+    text-decoration: underline;
 }
 
 #clear-button {
