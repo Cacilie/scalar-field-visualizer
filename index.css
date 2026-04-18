@@ -1,0 +1,138 @@
+body {
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f0f0f0;
+    box-sizing: border-box;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+#plot-controls, #project-description {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    width: 250px;
+    box-sizing: border-box;
+}
+
+#canvas-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#project-description {
+    height: 720px;
+    font-size: 0.9em;
+    line-height: 1.4;
+    overflow-y: auto;
+}
+
+@media (max-width: 1200px) {
+    body {
+        flex-direction: column;
+        height: auto;
+        align-items: center;
+    }
+
+    #plot-controls, #project-description {
+        width: 100%;
+        max-width: 720px;
+    }
+
+    #project-description {
+        height: auto;
+        max-height: 500px;
+    }
+
+    #plot-controls {
+        margin-right: 0;
+    }
+
+    #project-description {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    #plot-controls, #project-description {
+        width: 100%;
+        max-width: none;
+    }
+}
+
+#project-description p {
+    margin: 10px 0;
+}
+
+#project-description li p {
+    margin: 5px 0 10px 0;
+}
+
+#project-description ol {
+    padding-left: 20px;
+}
+
+#project-description li {
+    margin-bottom: 10px;
+}
+
+#project-description a {
+    color: #0066cc;
+    text-decoration: none;
+}
+
+#project-description a:hover {
+    text-decoration: underline;
+}
+
+#plot-controls label {
+    display: flex;
+    align-items: center;
+    padding: 8px 0;
+    cursor: pointer;
+    font-size: 1.1em;
+}
+
+#plot-controls input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+#clear-button {
+    margin-top: 10px;
+    padding: 12px;
+    cursor: pointer;
+    background-color: #eee;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 1em;
+}
+
+#clear-button:hover {
+    background-color: #ddd;
+}
+
+.function-display {
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    font-size: 1.1em;
+    margin-bottom: 5px;
+    color: #333;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scalar Field Simulation</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+    <link rel="stylesheet" href="index.css">
+    </head>
+<body>
+    <div id="plot-controls">
+        <div class="function-display">
+            f(x, y) = √(x² + y²)
+        </div>
+        <label>
+            <input type="checkbox" id="draw-points-checkbox"> Draw points
+        </label>
+        <label>
+            <input type="checkbox" id="draw-contour-checkbox" checked> Draw contour
+        </label>
+        <label>
+            <input type="checkbox" id="marching-squares-checkbox" checked> Marching Squares
+        </label>
+        <button id="clear-button">Clear</button>
+    </div>
+
+    <div id="canvas-container"></div>
+
+    <div id="project-description">
+        <p>The objective of this project is to help visualize a scalar field in 2 Dimensions. While learning computer graphics, I had some trouble trying to visualize what a scalar field is and how it is used in different algorithms. This project does not explain the marching squares algorithm, but it helps with the visualization of a scalar field.</p>
+
+        <p>A Cartesian plane is defined with its four quadrants, as we will draw the geometry centered on the Cartesian plane's origin.</p>
+
+        <ol>
+            <li>
+                <strong>Click on the Clear button.</strong>
+                <p>Observe the empty Cartesian plane where the axes go from -1 to 1, with small steps of 0.1. We will refer to each of the defined units for all possible coordinates in the Cartesian plane as a "point."</p>
+            </li>
+            <li>
+                <strong>Click on Draw points.</strong>
+                <p>For each point, we will calculate a value. Find the definition of the function on the control panel (the panel to the left of the plot). The application of this function to every point in the plane defines the scalar field.</p>
+            </li>
+            <li>
+                <strong>Click Draw contour.</strong>
+                <p>A line is drawn to join all points with the same distance value. This distance value is called the ISO VALUE and, for this example, is defined as 0.8.</p>
+            </li>
+            <li>
+                <strong>Click on Marching squares.</strong>
+                <p>The marching squares algorithm is implemented to provide a smooth contour. Please refer to this for more information on marching squares: <a href="https://en.wikipedia.org/wiki/Marching_squares" target="_blank">Wikipedia: Marching Squares</a></p>
+            </li>
+        </ol>
+    </div>
+
+    <script src="index.js"></script>
+</body>
+</html>
