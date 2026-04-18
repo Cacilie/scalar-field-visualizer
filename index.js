@@ -4,22 +4,90 @@ const GRID_MIN = -1;
 const GRID_MAX = 1;
 const STEP = 0.1;
 const ISO_VALUE = 0.8;
-const DRAW_CONTOUR = true;
 const DRAW_DISTANCE = true;
 
 function setup() {
-  createCanvas(CANVAS_SIZE, CANVAS_SIZE);
+  const canvas = createCanvas(CANVAS_SIZE, CANVAS_SIZE);
+  canvas.parent('canvas-container');
   noLoop(); 
+
+  const pointsCheckbox = document.getElementById('draw-points-checkbox');
+  pointsCheckbox.addEventListener('change', () => {
+    redraw();
+  });
+
+  const contourCheckbox = document.getElementById('draw-contour-checkbox');
+  contourCheckbox.addEventListener('change', () => {
+    redraw();
+  });
+
+  const msCheckbox = document.getElementById('marching-squares-checkbox');
+  msCheckbox.addEventListener('change', () => {
+    redraw();
+  });
+
+  const clearButton = document.getElementById('clear-button');
+  clearButton.addEventListener('click', () => {
+    pointsCheckbox.checked = false;
+    contourCheckbox.checked = false;
+    msCheckbox.checked = false;
+    redraw();
+  });
 }
 
 function draw() {
   background(255);
   drawGrid();
   drawAxes();
-  drawPoints();
-  if (DRAW_CONTOUR) {
-    drawContour(ISO_VALUE);
+  
+  const pointsCheckbox = document.getElementById('draw-points-checkbox');
+  if (pointsCheckbox && pointsCheckbox.checked) {
+    drawPoints();
   }
+
+  const contourCheckbox = document.getElementById('draw-contour-checkbox');
+  const msCheckbox = document.getElementById('marching-squares-checkbox');
+  
+  if (contourCheckbox && contourCheckbox.checked) {
+    if (msCheckbox && msCheckbox.checked) {
+      drawContour(ISO_VALUE);
+    } else {
+      drawContourNaive(ISO_VALUE);
+    }
+  }
+}
+
+/**
+ * Naive contour drawing: joins all grid points that have the same rounded distance value.
+ * This connects the "0.8" labels seen on screen, showing a jagged, non-interpolated contour.
+ */
+function drawContourNaive(target) {
+  let points = [];
+  const targetStr = target.toFixed(1);
+
+  // Collect all grid points that would be labeled with the target value
+  for (let x = GRID_MIN; x <= GRID_MAX + 0.001; x += STEP) {
+    for (let y = GRID_MIN; y <= GRID_MAX + 0.001; y += STEP) {
+      const val = f(x, y);
+      if (val.toFixed(1) === targetStr) {
+        points.push({ x: x, y: y });
+      }
+    }
+  }
+
+  if (points.length < 2) return;
+
+  // Sort by angle to draw a coherent (but jagged) loop
+  points.sort((a, b) => Math.atan2(a.y, a.x) - Math.atan2(b.y, b.x));
+
+  stroke(0, 0, 255); // Blue for naive approach
+  strokeWeight(2);
+  noFill();
+  beginShape();
+  for (let p of points) {
+    vertex(mapCoord(p.x, 'x'), mapCoord(p.y, 'y'));
+  }
+  endShape(CLOSE);
 }
 
 /**

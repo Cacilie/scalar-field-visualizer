@@ -5,19 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scalar Field Simulation</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f0f0f0;
-        }
-    </style>
-</head>
+    <link rel="stylesheet" href="index.css">
+    </head>
 <body>
+    <div id="plot-controls">
+        <div class="function-display">
+            f(x, y) = √(x² + y²)
+        </div>
+        <label>
+            <input type="checkbox" id="draw-points-checkbox"> Draw points
+        </label>
+        <label>
+            <input type="checkbox" id="draw-contour-checkbox" checked> Draw contour
+        </label>
+        <label>
+            <input type="checkbox" id="marching-squares-checkbox" checked> Marching Squares
+        </label>
+        <button id="clear-button">Clear</button>
+    </div>
+
+    <div id="canvas-container"></div>
+
+    <div id="project-description">
+        <!-- Project description will go here later -->
+    </div>
+
     <script src="index.js"></script>
 </body>
 </html>
