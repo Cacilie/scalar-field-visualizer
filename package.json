@@ -1,0 +1,26 @@
+{
+  "name": "scalar-field",
+  "version": "1.0.0",
+  "description": "Scalar Field Visualization in 2D",
+  "main": "index.js",
+  "homepage": "https://Cacilie.github.io/scalar-field-visualizer",
+  "scripts": {
+    "predeploy": "npm install",
+    "deploy": "gh-pages -d .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cacilie/scalar-field-visualizer.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Cacilie/scalar-field-visualizer/issues"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.3.0"
+  }
+}
